@@ -133,21 +133,14 @@ public class Model {
 			return;
 		}
 		
-		/*
-		 * VERSIONE NON OTTIMIZZATA DELLA RICORSIONE
-		 */
-		/*
-		 * Questa versione riguarda le stesse combinazioni di giocatori più volte, e richiede mooolto tempo.
-		 * Riesce a terminare in tempi acettabili solo su grafi molto piccoli, con meno di 10 vertici. La versione 
-		 * ottimizzata di sotto riesce a gestire velocemente anche grafi con 40-50 vertici.
-		 */
        	for (Location x : rimanenti) {
+       		List<Location>currentRimanenti = new ArrayList<>(rimanenti);
        		if(!x.equals(r)) {
  				parziale.add(x);
- 				rimanenti.remove(x);
- 				ricorsione(parziale, rimanenti, p, a, r);
+ 				currentRimanenti.remove(x);
+ 				ricorsione(parziale, currentRimanenti, p, a, r);
  				parziale.remove(parziale.size()-1);
- 				rimanenti.add(x);
+ 				
  			}
  		}
 	}

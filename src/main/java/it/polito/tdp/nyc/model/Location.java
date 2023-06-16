@@ -1,5 +1,7 @@
 package it.polito.tdp.nyc.model;
 
+import java.util.Objects;
+
 import com.javadocmd.simplelatlng.LatLng;
 
 public class Location {
@@ -23,6 +25,21 @@ public class Location {
 	}
 	public void setCoordinate(LatLng coordinate) {
 		this.coordinate = coordinate;
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(coordinate, location);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Location other = (Location) obj;
+		return Objects.equals(coordinate, other.coordinate) && Objects.equals(location, other.location);
 	}
 	
 	
