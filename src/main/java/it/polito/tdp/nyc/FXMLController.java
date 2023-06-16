@@ -50,7 +50,7 @@ public class FXMLController {
     private TextField txtStringa; // Value injected by FXMLLoader
     
     @FXML // fx:id="txtTarget"
-    private ComboBox<?> txtTarget; // Value injected by FXMLLoader
+    private ComboBox<String> txtTarget; // Value injected by FXMLLoader
 
     @FXML
     void doAnalisiGrafo(ActionEvent event) {
@@ -65,7 +65,23 @@ public class FXMLController {
 
     @FXML
     void doCalcolaPercorso(ActionEvent event) {
-    	
+    	//ricordo che quando prendo la stringa s devo vedere che corrisponda ad una location!
+    	String s = this.txtStringa.getText();
+    	String targetS = this.txtTarget.getValue();
+    	if(!model.getLocationNameMap().containsKey(s)) {
+    		this.txtResult.setText("La stringa inserita non corrisponde a nessuna Località!");
+    		return;
+    	}
+    	Location target = model.getLocationNameMap().get(targetS);
+    	model.calcolaPercorso(target, s);
+    	List<Location>percorso = new ArrayList<>(model.getMigliore());
+    	int n = model.getnPercorso();
+    	String res = "";
+    	res += ("Il percorso migliore tra "+target.getLocation()+" e "+s+" è: \n");
+    	for(Location l : percorso) {
+    		res += l.getLocation()+"\n";
+    	}
+    	this.txtResult.setText(res);
     }
 
     @FXML
@@ -86,6 +102,9 @@ public class FXMLController {
     		String s = model.creaGrafo(provider, distanzaMIN);
     		this.txtResult.setText(s);
     		
+    		for(Location x : model.getGrafo().vertexSet()) {
+    			this.txtTarget.getItems().add(x.getLocation());
+    		}
     		
     	}catch(NumberFormatException e) {
     		this.txtResult.setText("Inserire un numero nel campo distance!");
